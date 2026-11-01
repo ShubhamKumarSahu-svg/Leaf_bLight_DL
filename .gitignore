@@ -1,0 +1,36 @@
+# Dataset (download separately - see README)
+PlantVillage/
+*.zip
+*.tar
+*.tar.gz
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# Trained model artifacts
+*.h5
+*.keras
+*.pb
+*.tflite
+saved_models/
+models/
+logs/
+runs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
