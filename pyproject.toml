@@ -1,0 +1,38 @@
+[project]
+name = "leaf-blight"
+version = "0.1.0"
+description = "Potato leaf disease classification (Early blight / Late blight / healthy) with TensorFlow/Keras"
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+environment = "ai-ml"
+dependencies = [
+    # tensorflow-cpu + the DirectML plugin is the supported Windows GPU setup for 2.10.
+    # Do NOT also install `tensorflow`/`tensorflow-intel`: it duplicates GPU kernels and
+    # breaks model loading with "Multiple OpKernel registrations match NodeDef".
+    "tensorflow-cpu==2.10.0",
+    "tensorflow-directml-plugin; sys_platform == 'win32'",
+    "numpy<2.0.0",
+    "pillow",
+    "matplotlib",
+    "fastapi",
+    "uvicorn",
+    "python-multipart",
+    # NOTE: tensorflow-serving-api is intentionally not a dependency: it requires
+    # `tensorflow` (the Intel build), which duplicates GPU kernels next to tensorflow-cpu.
+    "tensorflow==2.10.1",
+    "tensorflow-directml-plugin>=0.4.0.dev230202",
+    "tensorflow-serving-api>=2.10.1",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel",
+]
+
+[tool.uv]
+# This is a notebook/scripts project, not an installable package.
+package = false
+
+# Windows wheels for tensorflow-io-gcs-filesystem were dropped after 0.31.0,
+# which breaks `uv sync` with tensorflow 2.10.1 on Windows.
+constraint-dependencies = ["tensorflow-io-gcs-filesystem<=0.31.0"]

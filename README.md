@@ -26,7 +26,13 @@ Leaf_bLight_DL/
 │   ├── Potato___Early_blight/
 │   ├── Potato___Late_blight/
 │   └── Potato___healthy/
+├── api/
+│   └── main.py
+├── saved_models/
+│   └── 1/
 ├── model_traning.ipynb
+├── pyproject.toml
+├── uv.lock
 ├── README.md
 └── .gitignore
 ```
@@ -44,12 +50,34 @@ Leaf_bLight_DL/
 
 ## Getting started
 
+This project is managed with [uv](https://docs.astral.sh/uv/). Python 3.10 is required
+(TensorFlow 2.10 is the last release with Windows DirectML support).
+
 ```bash
-pip install tensorflow matplotlib jupyter
-jupyter notebook model_traning.ipynb
+# create .venv and install everything from uv.lock
+uv sync
+
+# add / remove packages (updates pyproject.toml + uv.lock)
+uv add <package>
+uv remove <package>
+
+# run the API
+uv run uvicorn api.main:app --reload
 ```
+
+To use the notebook, select the interpreter at `.venv\Scripts\python.exe`
+(`ipykernel` is included in the `dev` dependency group) or run:
+
+```bash
+uv run jupyter notebook model_traning.ipynb
+```
+
+Dependencies live in `pyproject.toml`; `uv.lock` pins the exact versions.
+`requirements.txt` is kept only for legacy/deployment reference.
 
 ## Repository notes
 
-- Large binaries (datasets, trained weights, archives) are ignored via `.gitignore`.
+- Large binaries (datasets, trained weights, archives, the `.venv`/`ai-ml` environments) are ignored via `.gitignore`.
 - To reproduce training, download the dataset first, then run the notebook from the project root.
+- `tensorflow-io-gcs-filesystem` is constrained to `<=0.31.0` in `pyproject.toml` because later
+  versions no longer ship Windows wheels.
